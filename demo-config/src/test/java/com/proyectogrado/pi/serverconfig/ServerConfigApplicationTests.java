@@ -1,4 +1,4 @@
-package com.demopoy;
+package com.proyectogrado.pi.serverconfig;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class DemoEruekaApplicationTests {
+public class ServerConfigApplicationTests {
 
 	@Test
 	public void contextLoads() {
