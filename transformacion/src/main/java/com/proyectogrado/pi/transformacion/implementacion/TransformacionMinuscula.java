@@ -6,12 +6,12 @@ import org.springframework.stereotype.Service;
 
 import com.proyectogrado.pi.transformacion.interfaz.ITransformacion;
 
-@Service("transformacionMayuscula")
-public class TransformacionMayuscula<String> implements ITransformacion<String> {
+@Service("transformacionMinuscula")
+public class TransformacionMinuscula<String> implements ITransformacion<String>{
 
 	@Override
 	public Message<String> logicaTransformacion(Message<String> message) {
-		Message<String> messageResultado = (Message<String>) MessageBuilder.withPayload(message.getPayload().toString().toUpperCase()).build();
+		Message<String> messageResultado = (Message<String>) MessageBuilder.withPayload(message.getPayload().toString().toLowerCase()).build();
 		return messageResultado;
 	}
 
