@@ -1,3 +1,5 @@
+server.port=8081
+
 spring.rabbitmq.host=localhost
 spring.rabbitmq.port=5672
 spring.rabbitmq.username=guest
@@ -9,3 +11,4 @@ spring.cloud.stream.bindings.input.group=transformacionesIntakeGroup
 spring.cloud.stream.bindings.output.destination=transformacionMessages
 spring.cloud.stream.default.contentType=application/json
 
+transformacion.class=transformacionMayuscula
