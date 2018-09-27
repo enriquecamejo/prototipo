@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: conector1
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: false    
+      discovery:
+        enabled: true
+        service-id: config-server 
