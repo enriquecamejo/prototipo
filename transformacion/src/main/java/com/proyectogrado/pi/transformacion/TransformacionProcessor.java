@@ -26,7 +26,7 @@ public class TransformacionProcessor<T> {
 	
 	@Autowired
 	public void setTransformacion(ApplicationContext context) {
-		this.transformacion = (ITransformacion<String>) context.getBean(name);;
+		this.transformacion = (ITransformacion<String>) context.getBean(name);
 	}
 	
 	@StreamListener(Processor.INPUT)
