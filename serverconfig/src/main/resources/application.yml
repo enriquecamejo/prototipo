@@ -5,6 +5,6 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/enriquecamejo/garbanzo.git/
+          uri: https://github.com/enriquecamejo/prototipo.git
           search-paths:
               - "configuraciones/{application}"
