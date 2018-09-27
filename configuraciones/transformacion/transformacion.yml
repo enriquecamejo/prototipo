@@ -1,14 +1,24 @@
-server.port=8081
+server:
+  port: 8081
 
-spring.rabbitmq.host=localhost
-spring.rabbitmq.port=5672
-spring.rabbitmq.username=guest
-spring.rabbitmq.password=guest
+spring:
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: guest
+    password: guest
 
-spring.cloud.stream.bindings.input.destination=conector1Messages
-spring.cloud.stream.bindings.input.group=transformacionesIntakeGroup
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: conector1Messages
+          group: transformacionesIntakeGroup
+        output:
+          destination: transformacionMessages
+      default: 
+        contentType: application/json
 
-spring.cloud.stream.bindings.output.destination=transformacionMessages
-spring.cloud.stream.default.contentType=application/json
-
-transformacion.class=transformacionMayuscula
+transformacion:
+  class: transformacionMayuscula
