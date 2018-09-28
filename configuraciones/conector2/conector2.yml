@@ -5,5 +5,5 @@ spring.rabbitmq.port=5672
 spring.rabbitmq.username=guest
 spring.rabbitmq.password=guest
 
-spring.cloud.stream.bindings.input.destination=transformacionMessages
-spring.cloud.stream.bindings.input.group=conector2IntakeGroup
+#spring.cloud.stream.bindings.input.destination=transformacionMessages
+#spring.cloud.stream.bindings.input.group=conector2IntakeGroup

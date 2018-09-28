@@ -7,16 +7,16 @@ spring:
     port: 5672
     username: guest
     password: guest
-  cloud:
-    stream:
-      bindings:
-        input:
-          destination: conector1Messages
-          group: transformacionesIntakeGroup
-        output:
-          destination: transformacionMessages
-      default: 
-        contentType: application/json
+#  cloud:
+#    stream:
+#      bindings:
+#        input:
+#          destination: conector1Messages
+#          group: transformacionesIntakeGroup
+#        output:
+#          destination: transformacionMessages
+#      default: 
+#        contentType: application/json
 
 #transformacion:
 #  class: transformacionMayuscula
