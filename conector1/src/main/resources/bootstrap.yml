@@ -9,4 +9,10 @@ spring:
       fail-fast: false    
       discovery:
         enabled: true
-        service-id: config-server 
+        service-id: config-server
+    stream:
+      bindings:
+        output:
+          destination: conector1Messages
+      default:
+        contentType: application/json
