@@ -1,5 +1,25 @@
+#server:
+#  port: 8082
+#spring:
+#  application:
+#    name: conector2
+#  cloud:
+#    config:
+#      uri: http://localhost:8888
+#      fail-fast: false    
+#      discovery:
+#        enabled: true
+#        service-id: config-server
+#        
+#    stream:
+#      bindings:
+#        input:
+#          destination: transformacionMessages
+#          group: conector2IntakeGroup
+          
+          
 server:
-  port: 8082
+  port: 8085
 spring:
   application:
     name: conector2
@@ -9,4 +29,11 @@ spring:
       fail-fast: false    
       discovery:
         enabled: true
-        service-id: config-server 
+        service-id: config-server
+        
+    stream:
+      bindings:
+        input:
+          destination: transformacion2Messages
+          group: conector2IntakeGroup2         
+

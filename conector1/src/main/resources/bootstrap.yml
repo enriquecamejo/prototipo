@@ -1,3 +1,23 @@
+#server:
+#  port: 8080
+#spring:
+#  application:
+#    name: conector1
+#  cloud:
+#    config:
+#      uri: http://localhost:8888
+#      fail-fast: false    
+#      discovery:
+#        enabled: true
+#        service-id: config-server
+#    stream:
+#      bindings:
+#        conector1MessagesChannel:
+#          destination: conector1Messages
+#      default:
+#        contentType: application/json
+
+        
 server:
   port: 8083
 spring:
@@ -12,7 +32,8 @@ spring:
         service-id: config-server
     stream:
       bindings:
-        output:
-          destination: conector1Messages
+        conector1MessagesChannel:
+          destination: conector2Messages
       default:
         contentType: application/json
+        
