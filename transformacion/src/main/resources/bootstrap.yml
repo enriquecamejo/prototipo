@@ -59,3 +59,13 @@ spring:
         
 transformacion:
   class: transformacionMinuscula
+  
+  url:
+    s1:
+      paso1:
+        http://localhost:8082/procesarTransformacion
+  contentype:
+    s1:
+      paso1:
+        application/xml
+        
