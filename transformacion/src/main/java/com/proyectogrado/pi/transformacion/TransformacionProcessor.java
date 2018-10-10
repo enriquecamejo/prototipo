@@ -16,30 +16,18 @@ import org.springframework.messaging.handler.annotation.SendTo;
 
 @EnableBinding(Processor.class)
 public class TransformacionProcessor<T> {
-	
-	@Value("${transformacion.class}")
-    private String name;
-	
+		
 	@Autowired
 	private TransformacionLogica transformacionLogica;
-	
-	//private ITransformacion<String> transformacion;
-	//private final Log logger = LogFactory.getLog(getClass());
-	
-	/*@Autowired
-	public void setTransformacion(ApplicationContext context) {
-		this.transformacion = (ITransformacion<String>) context.getBean(name);
-	}*/
-	
+		
 	@StreamListener(Processor.INPUT)
 	@SendTo(Processor.OUTPUT)
 	public Message<String> receive(Message<String> message) {
 		System.out.println("Received: " + message.toString());
-		String result = transformacionLogica.transformacion(message.getPayload(), "s1", 1);
+		String result = transformacionLogica.transformacion(message.getPayload(), "s2", 1);
         System.out.println("RESULT="+result);
         Message<String> messageResultado = (Message<String>) MessageBuilder.withPayload(result).build();
         return messageResultado;
-		//return transformacion.logicaTransformacion(message);
 	}
 		
 

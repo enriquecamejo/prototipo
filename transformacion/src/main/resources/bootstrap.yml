@@ -3,36 +3,6 @@
 #    serviceUrl:
 #      defaultZone: http://localhost:8761/eureka/
 #    register-with-eureka: true
-server:
-  port: 8084
-  
-spring:
-  application:
-    name: transformacion
-  cloud:
-    config:
-      uri: http://localhost:8888
-      fail-fast: false    
-      discovery:
-        enabled: true
-        service-id: config-server
-        
-    stream:
-      bindings:
-        input:
-          destination: conector1Messages
-          group: transformacionesIntakeGroup
-        output:
-          destination: transformacionMessages 
-      default:
-        contentType: application/json
-#        
-#transformacion:
-#  class: transformacionMayuscula
-  
-  
-  
-  
 #server:
 #  port: 8084
 #  
@@ -50,22 +20,50 @@ spring:
 #    stream:
 #      bindings:
 #        input:
-#          destination: conector2Messages
-#          group: transformacionesIntakeGroup2
+#          destination: conector1Messages
+#          group: transformacionesIntakeGroup
 #        output:
-#          destination: transformacion2Messages 
+#          destination: transformacionMessages 
 #      default:
 #        contentType: application/json
-        
-transformacion:
-  class: transformacionMinuscula
+#        
+#transformacion:
+#  class: transformacionMayuscula
   
+  
+  
+  
+server:
+  port: 8091
+  
+spring:
+  application:
+    name: transformacion
+  cloud:
+    config:
+      uri: http://localhost:8888
+      fail-fast: false    
+      discovery:
+        enabled: true
+        service-id: config-server
+        
+    stream:
+      bindings:
+        input:
+          destination: conector1MessagesS2
+          group: transformacionesIntakeGroupS2
+        output:
+          destination: transformacionMessagesS2
+      default:
+        contentType: application/json
+        
+transformacion: 
   url:
-    s1:
+    s2:
       paso1:
-        http://localhost:8081/procesarTransformacion
+        http://localhost:8082/procesarTransformacion
   contentype:
-    s1:
+    s2:
       paso1:
-        application/json
+        application/xml
         

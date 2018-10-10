@@ -71,35 +71,7 @@ public class TransformacionLogica {
 			return null;
 		}
 	}
-	
-	/*public String transformacion(String texto, String solucion, Integer paso) {
-		try {
-			StringBuffer bufferTrnInput = new StringBuffer("transformacion.typeInput.");
-			bufferTrnInput.append(solucion).append(".Paso").append(paso);
-			StringBuffer bufferTrnOutput = new StringBuffer("transformacion.typeOutput.");
-			bufferTrnOutput.append(solucion).append(".Paso").append(paso);
-			
-			String trnTypeInput = System.getProperty(bufferTrnInput.toString());
-			String trnTypeOutput = System.getProperty(bufferTrnOutput.toString());
-			
-			if ("json".equals(trnTypeInput) && "xml".equals(trnTypeOutput)) {
-				return transformarJsonToXml(texto);
-			}
-			if ("xml".equals(trnTypeInput) && "json".equals(trnTypeOutput)) {
-				return transformarXmlToJson(texto);
-			}
-			if ("xml".equals(trnTypeInput)){
-				StringBuffer bufferTrnXSLT = new StringBuffer("transformacion.archivoXSLT.");
-				bufferTrnXSLT.append(solucion).append(".Paso").append(paso);
-				String archivoXSLT = System.getProperty(bufferTrnXSLT.toString());
-				return transformacionXSLT(texto, archivoXSLT);
-			}
-			return null;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-	}*/
+		
 	
 	public String transformarJsonToXml(String texto) throws Exception{
 		JSONObject json = new JSONObject(texto);
