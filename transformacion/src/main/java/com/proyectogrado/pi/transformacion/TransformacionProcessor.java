@@ -27,7 +27,7 @@ public class TransformacionProcessor<T> {
 		MessageHeaders headers = message.getHeaders();
 		String idSol = (String) headers.get("idSol");
 		Integer paso = (Integer) headers.get("paso");
-		String result = transformacionLogica.transformacion(message.getPayload(), idSol, paso);
+		String result = transformacionLogica.transformacionXSLT(message.getPayload(), idSol, paso);
         System.out.println("RESULT="+result);
         paso = paso + 1;
         Message<String> messageResultado = (Message<String>) MessageBuilder.withPayload(result).setHeader("idSol", idSol).setHeader("paso", paso).build();

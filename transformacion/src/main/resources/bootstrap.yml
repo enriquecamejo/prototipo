@@ -48,13 +48,19 @@ spring:
 #      default:
 #        contentType: application/json
         
+#transformacion: 
+#  url:
+#    s1:
+#      paso1:
+#        http://localhost:8081/procesarTransformacion
+#  contentype:
+#    s1:
+#      paso1:
+#        application/json
+        
+        
 transformacion: 
-  url:
+  xslt:
     s1:
-      paso1:
-        http://localhost:8081/procesarTransformacion
-  contentype:
-    s1:
-      paso1:
-        application/json
+      paso1: src/main/resources/xslt/ejemplo.xsl
         

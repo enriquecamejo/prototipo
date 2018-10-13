@@ -31,7 +31,6 @@ public class TransformacionLogica {
 	@Autowired
 	Environment env;
 
-	
 	public String transformacion(String texto, String solucion, Integer paso) {
 		try {
 			StringBuffer trnURL = new StringBuffer("transformacion.url.");
@@ -83,9 +82,12 @@ public class TransformacionLogica {
         return xmlJSONObj.toString(4);
     }
 	
-	public String transformacionXSLT(String texto, String archivoXSLT) {
+	public String transformacionXSLT(String texto, String solucion, Integer paso) {
 		//final String XSLT_PATH = "src/main/resources/ejemplo.xsl";
         try {
+        	StringBuffer trnXslt = new StringBuffer("transformacion.xslt.");
+        	trnXslt.append(solucion).append(".paso").append(paso);
+        	String archivoXSLT = env.getProperty(trnXslt.toString());
 	        StringWriter sw = new StringWriter();
 	        net.sf.saxon.s9api.Processor processor = new net.sf.saxon.s9api.Processor(false);        
 	        Serializer serializer = processor.newSerializer();
