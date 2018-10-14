@@ -1,5 +1,7 @@
 package com.proyectogrado.pi.transformacion;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.Input;
@@ -14,11 +16,14 @@ import org.springframework.messaging.SubscribableChannel;
 import org.springframework.messaging.handler.annotation.SendTo;
 
 
+
 @EnableBinding(Processor.class)
 public class TransformacionProcessor<T> {
 		
 	@Autowired
 	private TransformacionLogica transformacionLogica;
+	
+	private Logger logger = LoggerFactory.getLogger(TransformacionProcessor.class);
 		
 	@StreamListener(Processor.INPUT)
 	@SendTo(Processor.OUTPUT)
@@ -27,6 +32,7 @@ public class TransformacionProcessor<T> {
 		MessageHeaders headers = message.getHeaders();
 		String idSol = (String) headers.get("idSol");
 		Integer paso = (Integer) headers.get("paso");
+		logger.info("VAMOS A TRANSFORMAR!!");
 		String result = transformacionLogica.transformacionXSLT(message.getPayload(), idSol, paso);
         System.out.println("RESULT="+result);
         paso = paso + 1;

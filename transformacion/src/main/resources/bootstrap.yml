@@ -15,14 +15,17 @@ spring:
     stream:
       bindings:
         input:
-          destination: transformacionPaso4MessagesS1
+          destination: conector1MessagesS1
           group: transformacionesPaso5IntakeGroupS1
         output:
           destination: transformacionMessagesFinalS1
       default:
         contentType: application/json
         
-  
+transformacion: 
+  xslt:
+    s1:
+      paso1: src/main/resources/xslt/minuscula.xsl
   
 #server:
 #  port: 8091
