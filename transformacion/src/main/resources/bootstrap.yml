@@ -1,5 +1,5 @@
 server:
-  port: 8084
+  port: 8088
   
 spring:
   application:
@@ -15,10 +15,10 @@ spring:
     stream:
       bindings:
         input:
-          destination: conector1MessagesS1
+          destination: transformacionMessagesS1
           group: transformacionesIntakeGroupS1
         output:
-          destination: transformacionMessagesS1
+          destination: transformacionMessagesFinalS1
       default:
         contentType: application/json
         
@@ -57,10 +57,4 @@ spring:
 #    s1:
 #      paso1:
 #        application/json
-        
-        
-transformacion: 
-  xslt:
-    s1:
-      paso1: src/main/resources/xslt/ejemplo.xsl
         

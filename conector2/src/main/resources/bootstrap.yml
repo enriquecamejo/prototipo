@@ -1,5 +1,5 @@
 server:
-  port: 8085
+  port: 8090
 spring:
   application:
     name: conector2
@@ -14,7 +14,7 @@ spring:
     stream:
       bindings:
         input:
-          destination: transformacionMessagesS1
+          destination: transformacionMessagesFinalS1
           group: conector2IntakeGroupS1
           
           
