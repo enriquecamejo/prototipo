@@ -15,8 +15,8 @@ spring:
     stream:
       bindings:
         input:
-          destination: transformacionMessagesS1
-          group: transformacionesIntakeGroupS1
+          destination: transformacionPaso4MessagesS1
+          group: transformacionesPaso5IntakeGroupS1
         output:
           destination: transformacionMessagesFinalS1
       default:

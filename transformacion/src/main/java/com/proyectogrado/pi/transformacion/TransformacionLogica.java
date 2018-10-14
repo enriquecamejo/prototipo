@@ -88,6 +88,7 @@ public class TransformacionLogica {
         	StringBuffer trnXslt = new StringBuffer("transformacion.xslt.");
         	trnXslt.append(solucion).append(".paso").append(paso);
         	String archivoXSLT = env.getProperty(trnXslt.toString());
+        	System.out.println("PROPERTY!!!!!!!!!!!!!!!!!!!!!!!!!!"+archivoXSLT);
 	        StringWriter sw = new StringWriter();
 	        net.sf.saxon.s9api.Processor processor = new net.sf.saxon.s9api.Processor(false);        
 	        Serializer serializer = processor.newSerializer();

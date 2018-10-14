@@ -1,6 +1,4 @@
 spring:
-  profile:
-    active: dev
   cloud:
     config:
       server:
@@ -8,3 +6,4 @@ spring:
           uri: https://github.com/enriquecamejo/prototipo.git
           search-paths:
               - "configuraciones/{application}"
+          default-label: develop
