@@ -1,9 +1,9 @@
 server:
-  port: 8088
+  port: 8084
   
 spring:
   application:
-    name: transformacion
+    name: transformacion1
   cloud:
     config:
       uri: http://localhost:8888
@@ -16,16 +16,16 @@ spring:
       bindings:
         input:
           destination: conector1MessagesS1
-          group: transformacionesPaso5IntakeGroupS1
+          group: transformacionesPaso1IntakeGroupS1
         output:
-          destination: transformacionMessagesFinalS1
+          destination: transformacionPaso1MessagesS1
       default:
         contentType: application/json
         
-transformacion: 
-  xslt:
-    s1:
-      paso1: src/main/resources/xslt/minuscula.xsl
+#transformacion: 
+#  xslt:
+#    s1:
+#      paso1: src/main/resources/xslt/minuscula.xsl
   
 #server:
 #  port: 8091
