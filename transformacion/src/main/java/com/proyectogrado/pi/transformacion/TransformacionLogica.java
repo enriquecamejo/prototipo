@@ -14,6 +14,8 @@ import javax.xml.transform.stream.StreamSource;
 
 import org.json.JSONObject;
 import org.json.XML;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,8 @@ public class TransformacionLogica {
 	
 	@Autowired
 	Environment env;
+	
+	private Logger logger = LoggerFactory.getLogger(TransformacionLogica.class);
 
 	public String transformacion(String texto, String solucion, Integer paso) {
 		try {
@@ -88,7 +92,7 @@ public class TransformacionLogica {
         	StringBuffer trnXslt = new StringBuffer("transformacion.xslt.");
         	trnXslt.append(solucion).append(".paso").append(paso);
         	String archivoXSLT = env.getProperty(trnXslt.toString());
-        	System.out.println("PROPERTY!!!!!!!!!!!!!!!!!!!!!!!!!!"+archivoXSLT);
+        	logger.info("XSLT en el Transformador: "+archivoXSLT);
 	        StringWriter sw = new StringWriter();
 	        net.sf.saxon.s9api.Processor processor = new net.sf.saxon.s9api.Processor(false);        
 	        Serializer serializer = processor.newSerializer();

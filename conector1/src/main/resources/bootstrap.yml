@@ -14,6 +14,8 @@ spring:
       bindings:
         conector1MessagesChannel:
           destination: conector1MessagesS1
+          consumer:
+            maxAttempts: 1
       default:
         contentType: application/json
 

@@ -28,7 +28,7 @@ public class TransformacionProcessor<T> {
 	@StreamListener(Processor.INPUT)
 	@SendTo(Processor.OUTPUT)
 	public Message<String> receive(Message<String> message) throws Exception {
-		System.out.println("Received: " + message.toString());
+		logger.info("Mensaje recibido en el Transformador:"+message.toString());
 		MessageHeaders headers = message.getHeaders();
 		String idSol = (String) headers.get("idSol");
 		Integer paso = (Integer) headers.get("paso");
@@ -39,7 +39,7 @@ public class TransformacionProcessor<T> {
 			throw new Exception();
 		}
 		String result = transformacionLogica.transformacionXSLT(message.getPayload(), idSol, paso);
-        System.out.println("RESULT="+result);
+		logger.info("Resultado de Transformacion: "+result);
         paso = paso + 1;
         Message<String> messageResultado = (Message<String>) MessageBuilder.withPayload(result).setHeader("idSol", idSol).setHeader("paso", paso).build();
         return messageResultado;

@@ -19,6 +19,8 @@ spring:
           group: transformacionesPaso1IntakeGroupS1
         output:
           destination: transformacionPaso1MessagesS1
+          consumer:
+            maxAttempts: 1
       default:
         contentType: application/json
         
