@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 
-
 @RestController
 public class ConectorController {
 	
@@ -27,7 +26,7 @@ public class ConectorController {
 		int numero = (int) (Math.random() * 100);
 		logger.info("EJECUTANDO CONECTOR1!! El numero aleatorio es:"+numero);
 		if (numero > 70) {
-			logger.error("El conector1 dió error!!");
+			logger.error("El conector1 dio error!!");
 			throw new Exception();
 		}
 		conectorSource.conector1Messages().send(MessageBuilder.withPayload(contentMessage).setHeader("idSol", idSol).setHeader("paso", 1).build());

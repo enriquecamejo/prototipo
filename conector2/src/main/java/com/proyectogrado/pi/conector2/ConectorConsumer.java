@@ -18,10 +18,10 @@ public class ConectorConsumer {
 		int numero = (int) (Math.random() * 100);
 		logger.info("EJECUTANDO CONECTOR2!! El numero aleatorio es:"+numero);
 		if (numero > 70) {
-			logger.error("El conector2 dió error!!");
+			logger.error("El conector2 dio error!!");
 			throw new Exception();
 		}
-		logger.info("Llegó el siguiente mensaje a Conector2: "+ message.getPayload().toString());
+		logger.info("Llego el siguiente mensaje al Conector2: "+ message.getPayload().toString());
 		logger.info("Solucion ejecutada en Conector2: "+ message.getHeaders().get("idSol"));
 		logger.info("Paso de solucion ejecutada en Conector2: "+ message.getHeaders().get("paso"));
 	}

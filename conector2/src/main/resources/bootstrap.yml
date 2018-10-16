@@ -16,6 +16,8 @@ spring:
         input:
           destination: transformacionMessagesFinalS1
           group: conector2IntakeGroupS1
+          consumer:
+            maxAttempts: 1
           
           
 #server:

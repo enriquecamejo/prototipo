@@ -16,8 +16,6 @@ spring:
           destination: conector1MessagesS1
           consumer:
             maxAttempts: 1
-      default:
-        contentType: application/json
 
         
 #server:

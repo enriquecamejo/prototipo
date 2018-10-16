@@ -28,14 +28,14 @@ public class TransformacionProcessor<T> {
 	@StreamListener(Processor.INPUT)
 	@SendTo(Processor.OUTPUT)
 	public Message<String> receive(Message<String> message) throws Exception {
-		logger.info("Mensaje recibido en el Transformador:"+message.toString());
+		logger.info("Mensaje recibido en el Transformador: "+message.toString());
 		MessageHeaders headers = message.getHeaders();
 		String idSol = (String) headers.get("idSol");
 		Integer paso = (Integer) headers.get("paso");
 		int numero = (int) (Math.random() * 100);
 		logger.info("VAMOS A TRANSFORMAR!! El numero aleatorio es:"+numero);
 		if (numero > 70) {
-			logger.error("El transformador dió error!!");
+			logger.error("El transformador dio error!!");
 			throw new Exception();
 		}
 		String result = transformacionLogica.transformacionXSLT(message.getPayload(), idSol, paso);
