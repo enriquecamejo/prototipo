@@ -13,11 +13,12 @@ spring:
         input:
           destination: conector1MessagesS1
           group: transformacionesPaso5IntakeGroupS1
+          consumer:
+            maxAttempts: 1
         output:
           destination: transformacionMessagesFinalS1
-      default:
-        contentType: application/json
-
+          consumer:
+            maxAttempts: 1
 #transformacion:
 #  class: transformacionMayuscula
 

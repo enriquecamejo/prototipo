@@ -1,25 +1,23 @@
-#server:
-#  port: 8081
-
 spring:
   rabbitmq:
     host: localhost
     port: 5672
     username: guest
     password: guest
-#  cloud:
-#    stream:
-#      bindings:
-#        input:
-#          destination: conector1Messages
-#          group: transformacionesIntakeGroup
-#        output:
-#          destination: transformacionMessages
-#      default: 
-#        contentType: application/json
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: transformacionPaso2MessagesS1
+          group: transformacionesPaso3IntakeGroupS1
+          consumer:
+            maxAttempts: 1
+        output:
+          destination: transformacionPaso3MessagesS1
+          consumer:
+            maxAttempts: 1
 
-#transformacion:
-#  class: transformacionMayuscula
+
 
 transformacion: 
   xslt:
