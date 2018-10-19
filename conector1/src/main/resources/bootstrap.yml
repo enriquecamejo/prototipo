@@ -15,6 +15,9 @@ spring:
       discovery:
         enabled: true
         service-id: config-server
+
+#logging.config: ${spn.spring.cloud.config.runtime.uri}/${spring.application.name}/${spring.profiles.active}/${spring.cloud.config.label:master}/logback-spring.xml
+logging.config: ${spn.spring.cloud.config.runtime.uri}/logback-spring.xml
 #    stream:
 #      bindings:
 #        conector1MessagesChannel:
