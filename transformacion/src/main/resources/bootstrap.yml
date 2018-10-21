@@ -1,5 +1,5 @@
 server:
-  port: 8084
+  port: 8088
 eureka:
   client:
     serviceUrl:
@@ -7,7 +7,7 @@ eureka:
     register-with-eureka: true  
 spring:
   application:
-    name: transformacion
+    name: transformacion5
   cloud:
     config:
 #      uri: http://localhost:8888
