@@ -3,7 +3,7 @@ spring:
     config:
       server:
         git:
-          uri: https://github.com/enriquecamejo/prototipo.git
+          uri: https://github.com/enriquecamejo/configuraciones.git
           search-paths:
-              - "configuraciones/{application}"
-          default-label: develop
+              - "{application}"
+          default-label: master
