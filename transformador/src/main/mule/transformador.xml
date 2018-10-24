@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:java="http://www.mulesoft.org/schema/mule/java" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/java http://www.mulesoft.org/schema/mule/java/current/mule-java.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ef5b424c-75b9-414c-bd2b-8c1150a97ffc" >
+		<http:listener-connection host="localhost" port="8082" />
+	</http:listener-config>
+	<flow name="transformadorFlow" doc:id="c2b4a46d-26d8-45f9-b506-efbbade8cad2" >
+		<http:listener doc:name="Listener" doc:id="fa03ad38-0ae3-4d61-80dd-6125f2b4a47a" config-ref="HTTP_Listener_config" path="/procesarTransformacion" responseStreamingMode="NEVER">
+			<repeatable-in-memory-stream />
+		</http:listener>
+		<ee:transform doc:name="Transform Message" doc:id="573e470b-687e-453a-bd95-863fa267fca1" >
+			<ee:message >
+				<ee:set-payload ><![CDATA[%dw 2.0
+output application/json
+---
+payload]]></ee:set-payload>
+			</ee:message>
+		</ee:transform>
+	</flow>
+</mule>

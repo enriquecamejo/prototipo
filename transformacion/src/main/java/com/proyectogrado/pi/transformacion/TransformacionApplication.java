@@ -8,7 +8,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class TransformacionApplication {
 
 	public static void main(String[] args) {
-		//ClassPathXmlApplicationContext ctx = new ClassPathXmlApplicationContext("spring-bean-cfg.xml");
 		SpringApplication.run(TransformacionApplication.class, args);
 	}
 }

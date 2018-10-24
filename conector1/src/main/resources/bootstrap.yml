@@ -1,5 +1,25 @@
+server:
+  port: 8083
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+spring:
+  application:
+    name: conector1
+  cloud:
+    config:
+#      uri: http://localhost:8888
+      fail-fast: false    
+      discovery:
+        enabled: true
+        service-id: config-server
+
+
+        
 #server:
-#  port: 8080
+#  port: 8090
 #spring:
 #  application:
 #    name: conector1
@@ -13,27 +33,7 @@
 #    stream:
 #      bindings:
 #        conector1MessagesChannel:
-#          destination: conector1Messages
+#          destination: conector1MessagesS2
 #      default:
 #        contentType: application/json
-
-        
-server:
-  port: 8083
-spring:
-  application:
-    name: conector1
-  cloud:
-    config:
-      uri: http://localhost:8888
-      fail-fast: false    
-      discovery:
-        enabled: true
-        service-id: config-server
-    stream:
-      bindings:
-        conector1MessagesChannel:
-          destination: conector2Messages
-      default:
-        contentType: application/json
         
