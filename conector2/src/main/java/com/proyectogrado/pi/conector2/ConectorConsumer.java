@@ -8,12 +8,12 @@ import org.springframework.cloud.stream.messaging.Sink;
 import org.springframework.messaging.Message;
 
 
-@EnableBinding(Sink.class)
+@EnableBinding(ConectorSink.class)
 public class ConectorConsumer {
 	
 	private Logger logger = LoggerFactory.getLogger(ConectorConsumer.class);
 
-	@StreamListener(target = Sink.INPUT)
+	@StreamListener(target = "correctasChannel")
 	public void receive(Message<String> message) throws Exception{
 		int numero = (int) (Math.random() * 100);
 		logger.info("EJECUTANDO CONECTOR2!! El numero aleatorio es:"+numero);
@@ -24,5 +24,16 @@ public class ConectorConsumer {
 		logger.info("Llego el siguiente mensaje al Conector2: "+ message.getPayload().toString());
 		logger.info("Solucion ejecutada en Conector2: "+ message.getHeaders().get("idSol"));
 		logger.info("Paso de solucion ejecutada en Conector2: "+ message.getHeaders().get("paso"));
+	}
+	
+	@StreamListener(target = "erroresChannel")
+	public void receiveErrors(Message<String> message) throws Exception{
+		enviarNotificacion(message);
+	}
+	
+	private void enviarNotificacion(Message<String> message) {
+		String idMensaje = (String) message.getHeaders().get("idSol");
+		logger.error("Notificar el cliente el siguiente mensaje de ERROR----->"+ message.getPayload());
+		logger.error("Id Mensaje----->"+ idMensaje);
 	}
 }
