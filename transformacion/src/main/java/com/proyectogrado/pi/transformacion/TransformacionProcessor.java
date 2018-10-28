@@ -4,56 +4,72 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.Input;
-import org.springframework.cloud.stream.annotation.Output;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.messaging.Processor;
+import org.springframework.core.env.Environment;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.SubscribableChannel;
 import org.springframework.messaging.handler.annotation.SendTo;
 
 
-
-@EnableBinding(Processor.class)
+@EnableBinding(TransformacionProcesador.class)
 public class TransformacionProcessor<T> {
 		
 	@Autowired
-	private TransformacionLogica transformacionLogica;
+	TransformacionLogica transformacionLogica;
+	
+	@Autowired
+	Environment env;
+	
+	@Autowired
+	TransformacionProcesador transformacionProcesador;
 	
 	private Logger logger = LoggerFactory.getLogger(TransformacionProcessor.class);
 		
-	@StreamListener(Processor.INPUT)
-	@SendTo(Processor.OUTPUT)
-	public Message<String> receive(Message<String> message) throws Exception {
+	@StreamListener(target = "transformacionSubscribableChannel")
+	//@SendTo(Processor.OUTPUT)
+	public void receive(Message<String> message) throws Exception {
 		logger.info("Mensaje recibido en el Transformador: "+message.toString());
 		MessageHeaders headers = message.getHeaders();
 		String idSol = (String) headers.get("idSol");
 		Integer paso = (Integer) headers.get("paso");
+		StringBuffer tipoComSolPrpty = new StringBuffer("solucion.tipoComunicacion.").append(idSol);
+		String tipoComunicacionSol = env.getProperty(tipoComSolPrpty.toString());	
 		int numero = (int) (Math.random() * 100);
 		logger.info("VAMOS A TRANSFORMAR!! El numero aleatorio es:"+numero);
+		String idMensaje = (String) headers.get("idMensaje");
+		Message<String> messageResultado;
 		if (numero > 70) {
 			logger.error("El transformador dio error!!");
+			if ("req-resp".equals(tipoComunicacionSol)) {
+				String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
+				messageResultado = (Message<String>) MessageBuilder.withPayload(msjError).setHeader("idSol", idSol).setHeader("paso", paso).setHeader("idMensaje", idMensaje).build();
+				transformacionProcesador.transformacionMessagesErrores().send(messageResultado);
+				//enviarMensajeError(messageResultado);
+			}
 			throw new Exception();
 		}
 		String result = transformacionLogica.transformacionXSLT(message.getPayload(), idSol, paso);
 		logger.info("Resultado de Transformacion: "+result);
         paso = paso + 1;
-        Message<String> messageResultado = (Message<String>) MessageBuilder.withPayload(result).setHeader("idSol", idSol).setHeader("paso", paso).build();
-        return messageResultado;
+        
+        messageResultado = (Message<String>) MessageBuilder.withPayload(result).setHeader("idSol", idSol).setHeader("paso", paso).setHeader("idMensaje", idMensaje).build();
+        transformacionProcesador.transformacionMessages().send(messageResultado);
+        //enviarMensajeCorrecto(messageResultado);
+        //return messageResultado;
 	}
-		
-
-	public interface Sink {
-		@Input("transformacionSubscribableChannel")
-		SubscribableChannel transformacionSubscribable();
+	
+	
+	@SendTo("transformacionMessagesChannel")
+	public Message<String> enviarMensajeCorrecto(Message<String> mensaje) {
+		return mensaje;
 	}
-
-	public interface Source {
-		@Output("transformacionMessagesChannel")
-		MessageChannel transformacionMessages();
+	
+	@SendTo("transformacionMessagesChannelErrores")
+	public Message<String> enviarMensajeError(Message<String> mensaje) {
+		return mensaje;
 	}
+	
 
 }

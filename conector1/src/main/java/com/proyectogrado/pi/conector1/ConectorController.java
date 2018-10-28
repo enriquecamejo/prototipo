@@ -29,26 +29,22 @@ public class ConectorController {
 		logger.info("Llegó el siguiente mensaje a Conector1: "+contentMessage);
 		StringBuffer tipoComSolPrpty = new StringBuffer("solucion.tipoComunicacion.").append(idSol);
 		String tipoComunicacionSol = env.getProperty(tipoComSolPrpty.toString());	
+		String idMensaje = Utils.getRandomHexString(20);
+		logger.error("Id Mensaje Creado: "+ idMensaje);
 		int numero = (int) (Math.random() * 100);
 		logger.info("EJECUTANDO CONECTOR1!! El numero aleatorio es:"+numero);
 		if (numero > 70) {
 			logger.error("El conector1 dio error!!");
-			if ("one-way".equals(tipoComunicacionSol)) {
-				enviarNotificacion("Error de procesamiento! Consulte al administrador de la plataforma.", idSol);
+			if ("req-resp".equals(tipoComunicacionSol)) {
+				String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
+				conectorSource.conector1MessagesErrors().send(MessageBuilder.withPayload(msjError).setHeader("idSol", idSol).setHeader("paso", 1).setHeader("idMensaje", idMensaje).build());
 			}
 			throw new Exception();
 		}
-		if ("one-way".equals(tipoComunicacionSol)) {
-			enviarNotificacion(contentMessage, idSol);
-		}else {
-			conectorSource.conector1Messages().send(MessageBuilder.withPayload(contentMessage).setHeader("idSol", idSol).setHeader("paso", 1).build());
-		}
+				
+		conectorSource.conector1Messages().send(MessageBuilder.withPayload(contentMessage).setHeader("idSol", idSol).setHeader("paso", 1).setHeader("idMensaje", idMensaje).build());
 		return "Mensaje recibido!";
 	}
 	
-	private void enviarNotificacion(String mensaje, String idSol) {
-		String idMensaje = Utils.getRandomHexString(20);
-		conectorSource.conector1MessagesErrors().send(MessageBuilder.withPayload(mensaje).setHeader("idSol", idSol).setHeader("paso", 1).setHeader("idMensaje", idMensaje).build());
-	}
-	
+		
 }
