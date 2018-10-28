@@ -5,12 +5,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Processor;
 import org.springframework.core.env.Environment;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.handler.annotation.SendTo;
 
 
 @EnableBinding(TransformacionProcesador.class)
@@ -28,7 +26,6 @@ public class TransformacionProcessor<T> {
 	private Logger logger = LoggerFactory.getLogger(TransformacionProcessor.class);
 		
 	@StreamListener(target = "transformacionSubscribableChannel")
-	//@SendTo(Processor.OUTPUT)
 	public void receive(Message<String> message) throws Exception {
 		logger.info("Mensaje recibido en el Transformador: "+message.toString());
 		MessageHeaders headers = message.getHeaders();
@@ -46,7 +43,6 @@ public class TransformacionProcessor<T> {
 				String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
 				messageResultado = (Message<String>) MessageBuilder.withPayload(msjError).setHeader("idSol", idSol).setHeader("paso", paso).setHeader("idMensaje", idMensaje).build();
 				transformacionProcesador.transformacionMessagesErrores().send(messageResultado);
-				//enviarMensajeError(messageResultado);
 			}
 			throw new Exception();
 		}
@@ -56,20 +52,7 @@ public class TransformacionProcessor<T> {
         
         messageResultado = (Message<String>) MessageBuilder.withPayload(result).setHeader("idSol", idSol).setHeader("paso", paso).setHeader("idMensaje", idMensaje).build();
         transformacionProcesador.transformacionMessages().send(messageResultado);
-        //enviarMensajeCorrecto(messageResultado);
-        //return messageResultado;
 	}
-	
-	
-	@SendTo("transformacionMessagesChannel")
-	public Message<String> enviarMensajeCorrecto(Message<String> mensaje) {
-		return mensaje;
-	}
-	
-	@SendTo("transformacionMessagesChannelErrores")
-	public Message<String> enviarMensajeError(Message<String> mensaje) {
-		return mensaje;
-	}
-	
+		
 
 }
