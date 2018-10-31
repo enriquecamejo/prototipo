@@ -32,6 +32,9 @@ public class CustomPropertySourceLocator implements PropertySourceLocator {
   @Override
   public PropertySource<?> locate(Environment environment) {
     List<ServiceInstance> instances = this.discoveryClient.getInstances(this.configServiceName);
+    if (instances.isEmpty()) {
+    	return null;
+    }
     ServiceInstance serviceInstance = instances.get(0);
 
     return new MapPropertySource("customProperty",

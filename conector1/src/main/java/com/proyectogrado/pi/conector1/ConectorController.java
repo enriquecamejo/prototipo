@@ -26,24 +26,29 @@ public class ConectorController {
 	@RequestMapping("/recibirMensaje")
     @ResponseBody
 	public String reciveMessage(@RequestBody String contentMessage, @RequestHeader String idSol) throws Exception {
-		logger.info("Llegó el siguiente mensaje a Conector1: "+contentMessage);
-		StringBuffer tipoComSolPrpty = new StringBuffer("solucion.tipoComunicacion.").append(idSol);
-		String tipoComunicacionSol = env.getProperty(tipoComSolPrpty.toString());	
 		String idMensaje = Utils.getRandomHexString(20);
-		logger.error("Id Mensaje Creado: "+ idMensaje);
-		int numero = (int) (Math.random() * 100);
-		logger.info("EJECUTANDO CONECTOR1!! El numero aleatorio es:"+numero);
-		if (numero > 70) {
-			logger.error("El conector1 dio error!!");
-			if ("req-resp".equals(tipoComunicacionSol)) {
-				String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
-				conectorSource.conector1MessagesErrors().send(MessageBuilder.withPayload(msjError).setHeader("idSol", idSol).setHeader("paso", 1).setHeader("idMensaje", idMensaje).build());
+		try {
+			logger.info("Llegó el siguiente mensaje a Conector1: "+contentMessage);
+			StringBuffer tipoComSolPrpty = new StringBuffer("solucion.").append(idSol).append(".tipoComunicacion");
+			String tipoComunicacionSol = env.getProperty(tipoComSolPrpty.toString());	
+			logger.error("Id Mensaje Creado: "+ idMensaje);
+			int numero = (int) (Math.random() * 100);
+			logger.info("EJECUTANDO CONECTOR1!! El numero aleatorio es:"+numero);
+			if (numero > 70) {
+				logger.error("El conector1 dio error!!");
+				if ("req-resp".equals(tipoComunicacionSol)) {
+					String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
+					conectorSource.conector1MessagesErrors().send(MessageBuilder.withPayload(msjError).setHeader("idSol", idSol).setHeader("paso", 1).setHeader("idMensaje", idMensaje).build());
+				}
+				throw new Exception("Error por número aleatorio!!");
 			}
-			throw new Exception();
+					
+			conectorSource.conector1Messages().send(MessageBuilder.withPayload(contentMessage).setHeader("idSol", idSol).setHeader("paso", 1).setHeader("idMensaje", idMensaje).build());
+			logger.info("Se ejecutó CONECTOR1 exitosamente");
+		}catch(Exception ex) {
+			logger.error("ERROR en CONECTOR1: "+ex.getMessage());
 		}
-				
-		conectorSource.conector1Messages().send(MessageBuilder.withPayload(contentMessage).setHeader("idSol", idSol).setHeader("paso", 1).setHeader("idMensaje", idMensaje).build());
-		return "Mensaje recibido!";
+		return "Mensaje recibido! Identificador de Mensaje creado: "+idMensaje;
 	}
 	
 		

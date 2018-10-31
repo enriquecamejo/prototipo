@@ -27,31 +27,36 @@ public class TransformacionProcessor<T> {
 		
 	@StreamListener(target = "transformacionSubscribableChannel")
 	public void receive(Message<String> message) throws Exception {
-		logger.info("Mensaje recibido en el Transformador: "+message.toString());
-		MessageHeaders headers = message.getHeaders();
-		String idSol = (String) headers.get("idSol");
-		Integer paso = (Integer) headers.get("paso");
-		StringBuffer tipoComSolPrpty = new StringBuffer("solucion.tipoComunicacion.").append(idSol);
-		String tipoComunicacionSol = env.getProperty(tipoComSolPrpty.toString());	
-		int numero = (int) (Math.random() * 100);
-		logger.info("VAMOS A TRANSFORMAR!! El numero aleatorio es:"+numero);
-		String idMensaje = (String) headers.get("idMensaje");
-		Message<String> messageResultado;
-		if (numero > 70) {
-			logger.error("El transformador dio error!!");
-			if ("req-resp".equals(tipoComunicacionSol)) {
-				String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
-				messageResultado = (Message<String>) MessageBuilder.withPayload(msjError).setHeader("idSol", idSol).setHeader("paso", paso).setHeader("idMensaje", idMensaje).build();
-				transformacionProcesador.transformacionMessagesErrores().send(messageResultado);
+		try {
+			logger.info("Mensaje recibido en el Transformador: "+message.toString());
+			MessageHeaders headers = message.getHeaders();
+			String idSol = (String) headers.get("idSol");
+			Integer paso = (Integer) headers.get("paso");
+			StringBuffer tipoComSolPrpty = new StringBuffer("solucion.").append(idSol).append(".tipoComunicacion");
+			String tipoComunicacionSol = env.getProperty(tipoComSolPrpty.toString());	
+			int numero = (int) (Math.random() * 100);
+			logger.info("VAMOS A TRANSFORMAR!! El numero aleatorio es:"+numero);
+			String idMensaje = (String) headers.get("idMensaje");
+			Message<String> messageResultado;
+			if (numero > 70) {
+				logger.error("El transformador dio error!!");
+				if ("req-resp".equals(tipoComunicacionSol)) {
+					String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
+					messageResultado = (Message<String>) MessageBuilder.withPayload(msjError).setHeader("idSol", idSol).setHeader("paso", paso).setHeader("idMensaje", idMensaje).build();
+					transformacionProcesador.transformacionMessagesErrores().send(messageResultado);
+				}
+				throw new Exception("Error por número aleatorio!!");
 			}
-			throw new Exception();
+			String result = transformacionLogica.transformacionXSLT(message.getPayload(), idSol, paso);
+			logger.info("Resultado de Transformacion: "+result);
+	        paso = paso + 1;
+	        
+	        messageResultado = (Message<String>) MessageBuilder.withPayload(result).setHeader("idSol", idSol).setHeader("paso", paso).setHeader("idMensaje", idMensaje).build();
+	        transformacionProcesador.transformacionMessages().send(messageResultado);
+	        logger.info("Se ejecutó TRANSFORMADOR exitosamente");
+		}catch(Exception ex) {
+			logger.error("ERROR EN TRANSFORMADOR: "+ex.getMessage());
 		}
-		String result = transformacionLogica.transformacionXSLT(message.getPayload(), idSol, paso);
-		logger.info("Resultado de Transformacion: "+result);
-        paso = paso + 1;
-        
-        messageResultado = (Message<String>) MessageBuilder.withPayload(result).setHeader("idSol", idSol).setHeader("paso", paso).setHeader("idMensaje", idMensaje).build();
-        transformacionProcesador.transformacionMessages().send(messageResultado);
 	}
 		
 

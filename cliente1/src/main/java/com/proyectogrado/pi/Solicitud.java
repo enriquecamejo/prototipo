@@ -2,26 +2,27 @@ package com.proyectogrado.pi;
 
 public class Solicitud {
 
-	private final String id;
-	private final String xml;
-	private final String respuesta;
+	private String idMensaje;
+	private String respuesta;
 	
-	public Solicitud(String id, String xml, String respuesta) {
-		this.id = id;
-		this.xml = xml;
+	public Solicitud(String idMensaje, String respuesta) {
+		this.idMensaje = idMensaje;
 		this.respuesta = respuesta;
 	}
-	
-	public String getId() {
-		return this.id;
+		
+	public Solicitud() {
 	}
-	public String getXml() {
-		return this.xml;
+
+	public String getIdMensaje() {
+		return idMensaje;
 	}
+
 	public String getRespuesta() {
 		return this.respuesta;
 	}
+	
+	@Override
 	public String toString() {
-		return "{id:"+id+",xml:"+xml+",respuesta:"+respuesta+"}";
+		return "Solicitud [idMensaje=" + idMensaje + ", respuesta=" + respuesta + "]";
 	}
 }

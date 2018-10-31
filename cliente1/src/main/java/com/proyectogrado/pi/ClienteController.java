@@ -21,7 +21,7 @@ public class ClienteController {
 	@ResponseBody
     public Solicitud solicitudes(@RequestBody Solicitud sol) {
 		
-		repositorio.put(sol.getId(), sol.toString());
+		repositorio.put(sol.getIdMensaje(), sol.toString());
 		System.out.println(sol.toString());
         return sol;
     }
