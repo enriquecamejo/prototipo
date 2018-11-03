@@ -8,4 +8,7 @@ public interface ConectorSource {
 	@Output("conector1MessagesChannel")
     MessageChannel conector1Messages();
 	
+	@Output("conector1MessagesErrorChannel")
+    MessageChannel conector1MessagesErrors();
+	
 }

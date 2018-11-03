@@ -10,30 +10,9 @@ spring:
     name: conector1
   cloud:
     config:
-#      uri: http://localhost:8888
       fail-fast: false    
       discovery:
         enabled: true
         service-id: config-server
 
-
-        
-#server:
-#  port: 8090
-#spring:
-#  application:
-#    name: conector1
-#  cloud:
-#    config:
-#      uri: http://localhost:8888
-#      fail-fast: false    
-#      discovery:
-#        enabled: true
-#        service-id: config-server
-#    stream:
-#      bindings:
-#        conector1MessagesChannel:
-#          destination: conector1MessagesS2
-#      default:
-#        contentType: application/json
         

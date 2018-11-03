@@ -10,37 +10,8 @@ spring:
     name: conector2
   cloud:
     config:
-#      uri: http://localhost:8888
       fail-fast: false    
       discovery:
         enabled: true
         service-id: config-server
-        
-#    stream:
-#      bindings:
-#        input:
-#          destination: transformacionMessagesFinalS1
-#          group: conector2IntakeGroupS1
-#          consumer:
-#            maxAttempts: 1
-          
-          
-#server:
-#  port: 8092
-#spring:
-#  application:
-#    name: conector2
-#  cloud:
-#    config:
-#      uri: http://localhost:8888
-#      fail-fast: false    
-#      discovery:
-#        enabled: true
-#        service-id: config-server
-#        
-#    stream:
-#      bindings:
-#        input:
-#          destination: transformacionMessagesS2
-#          group: conector2IntakeGroupS2        
 

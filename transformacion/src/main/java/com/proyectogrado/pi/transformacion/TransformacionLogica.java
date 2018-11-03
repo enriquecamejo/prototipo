@@ -87,7 +87,6 @@ public class TransformacionLogica {
     }
 	
 	public String transformacionXSLT(String texto, String solucion, Integer paso) {
-		//final String XSLT_PATH = "src/main/resources/ejemplo.xsl";
         try {
         	StringBuffer trnXslt = new StringBuffer("transformacion.xslt.");
         	trnXslt.append(solucion).append(".paso").append(paso);
