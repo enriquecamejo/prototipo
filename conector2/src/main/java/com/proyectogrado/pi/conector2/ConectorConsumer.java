@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.core.env.Environment;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 
@@ -23,10 +24,13 @@ public class ConectorConsumer {
 	@Autowired
 	Environment env;
 	
+	@Autowired
+	ConectorSink conectorSink;
+	
 	private Logger logger = LoggerFactory.getLogger(ConectorConsumer.class);
 
 	@StreamListener(target = "correctasChannel")
-	public void receive(Message<String> message) throws Exception{
+	public void receive(Message<String> message){
 		try {
 			int numero = (int) (Math.random() * 100);
 			logger.info("EJECUTANDO CONECTOR2!! El numero aleatorio es:"+numero);
@@ -35,27 +39,33 @@ public class ConectorConsumer {
 			Integer paso = (Integer) headers.get("paso");
 			StringBuffer tipoComSolPrpty = new StringBuffer("solucion.").append(idSol).append(".tipoComunicacion");
 			String tipoComunicacionSol = env.getProperty(tipoComSolPrpty.toString());
-			if (numero > 70) {
+			if (numero > 80) {
 				logger.error("El conector2 dio error!!");
-				if ("req-resp".equals(tipoComunicacionSol)) {
-					String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
-					logger.error(msjError);
-					enviarNotificacion(message, msjError, idSol);
-				}
+				//if ("req-resp".equals(tipoComunicacionSol)) {
+					
+				//}
 				throw new Exception("Error por número aleatorio!!");
 			}
 			logger.info("Llego el siguiente mensaje al Conector2: "+ message.getPayload().toString());
 			logger.info("Solucion ejecutada en Conector2: "+ idSol);
 			logger.info("Paso de solucion ejecutada en Conector2: "+ paso);
 			if ("req-resp".equals(tipoComunicacionSol)) {
-				enviarNotificacion(message, "OK", idSol);
+				//enviarNotificacion(message, "OK", idSol);
+			}else {
+				conectorSink.respuestas().send(message);
 			}
 		}catch(Exception ex) {
 			logger.error("ERROR EN CONECTOR2:"+ex.getMessage());
+			String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
+			Message<String> messageResultado = (Message<String>) MessageBuilder.withPayload(msjError).copyHeaders(message.getHeaders()).build();
+			conectorSink.respuestas().send(messageResultado);
+			//String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
+			//logger.error(msjError);
+			//enviarNotificacion(message, msjError, idSol);
 		}
 	}
 	
-	@StreamListener(target = "erroresChannel")
+	/*@StreamListener(target = "erroresChannel")
 	public void receiveErrors(Message<String> message) throws Exception{
 		try {
 			MessageHeaders headers = message.getHeaders();
@@ -65,7 +75,7 @@ public class ConectorConsumer {
 		}catch(Exception ex) {
 			logger.error("ERROR EN CONECTOR2:"+ex.getMessage());
 		}
-	}
+	}*/
 	
 	private void enviarNotificacion(Message<String> message, String respuesta, String idSol) {
 		try {

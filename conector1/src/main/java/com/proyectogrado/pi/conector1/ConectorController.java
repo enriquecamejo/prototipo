@@ -5,19 +5,22 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
 import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.proyectogrado.pi.conector1.GatewayApplication.StreamGateway;
+
 
 @RestController
 public class ConectorController {
 	
 	@Autowired
-    ConectorSource conectorSource;
-			
+    StreamGateway gateway;
+				
 	@Autowired
 	Environment env;
 		
@@ -26,30 +29,22 @@ public class ConectorController {
 	@RequestMapping("/recibirMensaje")
     @ResponseBody
 	public String reciveMessage(@RequestBody String contentMessage, @RequestHeader String idSol) throws Exception {
-		String idMensaje = Utils.getRandomHexString(20);
 		try {
 			logger.info("Llegó el siguiente mensaje a Conector1: "+contentMessage);
-			StringBuffer tipoComSolPrpty = new StringBuffer("solucion.").append(idSol).append(".tipoComunicacion");
-			String tipoComunicacionSol = env.getProperty(tipoComSolPrpty.toString());	
-			logger.error("Id Mensaje Creado: "+ idMensaje);
 			int numero = (int) (Math.random() * 100);
 			logger.info("EJECUTANDO CONECTOR1!! El numero aleatorio es:"+numero);
-			if (numero > 70) {
+			if (numero > 80) {
 				logger.error("El conector1 dio error!!");
-				if ("req-resp".equals(tipoComunicacionSol)) {
-					String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
-					conectorSource.conector1MessagesErrors().send(MessageBuilder.withPayload(msjError).setHeader("idSol", idSol).setHeader("paso", 1).setHeader("idMensaje", idMensaje).build());
-				}
-				throw new Exception("Error por número aleatorio!!");
+				return "Error de procesamiento! Consulte al administrador de la plataforma.";
 			}
-					
-			conectorSource.conector1Messages().send(MessageBuilder.withPayload(contentMessage).setHeader("idSol", idSol).setHeader("paso", 1).setHeader("idMensaje", idMensaje).build());
+			Message<String> mensaje = MessageBuilder.withPayload(contentMessage).setHeader("idSol", idSol).setHeader("paso", 1).build();
+			String respuesta = gateway.process(mensaje);
 			logger.info("Se ejecutó CONECTOR1 exitosamente");
+			return respuesta;
 		}catch(Exception ex) {
 			logger.error("ERROR en CONECTOR1: "+ex.getMessage());
+			return "Error de procesamiento! Consulte al administrador de la plataforma.";
 		}
-		return "Mensaje recibido! Identificador de Mensaje creado: "+idMensaje;
-	}
-	
+	}	
 		
 }
