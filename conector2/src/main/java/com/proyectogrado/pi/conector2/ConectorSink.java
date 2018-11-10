@@ -12,5 +12,8 @@ public interface ConectorSink {
 	
 	@Output("respuestasChannel")
 	MessageChannel respuestas();
+	
+	@Output("conector2ReplyChannel")
+	MessageChannel conector2Reply();
 
 }
