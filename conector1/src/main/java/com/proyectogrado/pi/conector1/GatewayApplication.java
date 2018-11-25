@@ -68,7 +68,7 @@ public class GatewayApplication {
 	  public class MessageReply {
 
 		  @ServiceActivator(inputChannel = GatewayChannels.TO_UPPERCASE_REPLY)
-		  public String getReply(Message<String> myMessage) {
+		  public String getReply(Message<?> myMessage) {
 			  System.out.println("LLEGO ESTOOOOOO::::::::::::::::"+myMessage.getPayload());
 		      return myMessage.getPayload().toString();
 		  }

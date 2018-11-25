@@ -46,5 +46,5 @@ public class ConectorController {
 			return "Error de procesamiento! Consulte al administrador de la plataforma.";
 		}
 	}	
-		
+	
 }

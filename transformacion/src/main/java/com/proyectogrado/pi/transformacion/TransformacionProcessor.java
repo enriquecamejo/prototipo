@@ -40,20 +40,20 @@ public class TransformacionProcessor<T> {
 		}
 	}
 	
-	@StreamListener(target = "transformacionReplySubscribableChannel")
-	public void receiveReply(Message<String> message) {
-		try {
-			Message<String> messageResultado;
-			messageResultado = procesamientoTransformacion(message);
-	        transformacionProcesador.transformacionMessagesErrores().send(messageResultado);
-	        logger.info("Se ejecutó TRANSFORMADOR exitosamente");
-		}catch(Exception ex) {
-			logger.error("ERROR EN TRANSFORMADOR: "+ex.getMessage());
-			String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
-			Message<String> messageResultado = (Message<String>) MessageBuilder.withPayload(msjError).copyHeaders(message.getHeaders()).build();
-			transformacionProcesador.transformacionMessagesErrores().send(messageResultado);
-		}
-	}
+//	@StreamListener(target = "transformacionReplySubscribableChannel")
+//	public void receiveReply(Message<String> message) {
+//		try {
+//			Message<String> messageResultado;
+//			messageResultado = procesamientoTransformacion(message);
+//	        transformacionProcesador.transformacionMessagesErrores().send(messageResultado);
+//	        logger.info("Se ejecutó TRANSFORMADOR exitosamente");
+//		}catch(Exception ex) {
+//			logger.error("ERROR EN TRANSFORMADOR: "+ex.getMessage());
+//			String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
+//			Message<String> messageResultado = (Message<String>) MessageBuilder.withPayload(msjError).copyHeaders(message.getHeaders()).build();
+//			transformacionProcesador.transformacionMessagesErrores().send(messageResultado);
+//		}
+//	}
 	
 	
 	private Message<String> procesamientoTransformacion(Message<String> message) throws Exception {

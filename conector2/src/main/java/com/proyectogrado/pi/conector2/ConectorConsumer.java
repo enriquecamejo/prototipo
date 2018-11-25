@@ -1,12 +1,6 @@
 package com.proyectogrado.pi.conector2;
 
-import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 
 import javax.xml.soap.MessageFactory;
 import javax.xml.soap.SOAPBody;
@@ -143,46 +137,46 @@ public class ConectorConsumer {
 		}
 	}*/
 	
-	private void enviarNotificacion(Message<String> message, String respuesta, String idSol) {
-		try {
-			String idMensaje = (String) message.getHeaders().get("idMensaje");
-			logger.info("Id Mensaje----->"+ idMensaje);
-			StringBuffer clienteURL = new StringBuffer("solucion.").append(idSol).append(".clienteURL");
-			String clienteConnection = env.getProperty(clienteURL.toString());
-			URL url = new URL(clienteConnection);
-	        URLConnection uc = url.openConnection();
-	        HttpURLConnection conn = (HttpURLConnection) uc;
-	        conn.setDoOutput(true);
-	        conn.setRequestProperty("content-type", "application/json");
-	        conn.setRequestMethod("POST");
-			OutputStream os = conn.getOutputStream();
-			String texto = construirRespuestaCliente(idMensaje, respuesta);
-			os.write(texto.getBytes());
-			os.flush();
-			os.close();
-	        
-	        int rspCode = conn.getResponseCode();
-	        if (rspCode == HttpURLConnection.HTTP_OK) {
-	        	BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-				String inputLine;
-				StringBuffer response = new StringBuffer();
-				while ((inputLine = in.readLine()) != null) {
-					response.append(inputLine);
-				}
-				in.close();
-				logger.info("Notificacion en CONECTOR2 exitosa: " + response.toString());
-	        }else {
-				logger.error("ERROR en CONECTOR2 al notificar: POST request no funcionó");
-			}
-		} catch (Exception e) {
-			logger.error("ERROR en CONECTOR2 al notificar:"+e.getMessage());
-		}
-	}
-
-	private String construirRespuestaCliente(String idMensaje, String respuesta) throws Exception {
-		StringBuffer msjResp = new StringBuffer("{\"idMensaje\":\"").append(idMensaje).append("\"")
-			.append(", \"respuesta\":\"").append(respuesta).append("\"}");
-		
-		return msjResp.toString();
-	}
+//	private void enviarNotificacion(Message<String> message, String respuesta, String idSol) {
+//		try {
+//			String idMensaje = (String) message.getHeaders().get("idMensaje");
+//			logger.info("Id Mensaje----->"+ idMensaje);
+//			StringBuffer clienteURL = new StringBuffer("solucion.").append(idSol).append(".clienteURL");
+//			String clienteConnection = env.getProperty(clienteURL.toString());
+//			URL url = new URL(clienteConnection);
+//	        URLConnection uc = url.openConnection();
+//	        HttpURLConnection conn = (HttpURLConnection) uc;
+//	        conn.setDoOutput(true);
+//	        conn.setRequestProperty("content-type", "application/json");
+//	        conn.setRequestMethod("POST");
+//			OutputStream os = conn.getOutputStream();
+//			String texto = construirRespuestaCliente(idMensaje, respuesta);
+//			os.write(texto.getBytes());
+//			os.flush();
+//			os.close();
+//	        
+//	        int rspCode = conn.getResponseCode();
+//	        if (rspCode == HttpURLConnection.HTTP_OK) {
+//	        	BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//				String inputLine;
+//				StringBuffer response = new StringBuffer();
+//				while ((inputLine = in.readLine()) != null) {
+//					response.append(inputLine);
+//				}
+//				in.close();
+//				logger.info("Notificacion en CONECTOR2 exitosa: " + response.toString());
+//	        }else {
+//				logger.error("ERROR en CONECTOR2 al notificar: POST request no funcionó");
+//			}
+//		} catch (Exception e) {
+//			logger.error("ERROR en CONECTOR2 al notificar:"+e.getMessage());
+//		}
+//	}
+//
+//	private String construirRespuestaCliente(String idMensaje, String respuesta) throws Exception {
+//		StringBuffer msjResp = new StringBuffer("{\"idMensaje\":\"").append(idMensaje).append("\"")
+//			.append(", \"respuesta\":\"").append(respuesta).append("\"}");
+//		
+//		return msjResp.toString();
+//	}
 }
