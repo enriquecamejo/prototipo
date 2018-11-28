@@ -1,0 +1,32 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+targetNamespace="http://clienteFinalSOAP/personas" 
+xmlns:tns="http://clienteFinalSOAP/personas" elementFormDefault="qualified">
+  
+  <xs:element name="buscarPorCIRequest">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name= "ci" type="xs:string"/>
+      </xs:sequence>  
+    </xs:complexType>
+  </xs:element>
+    
+  <xs:element name="buscarPorCIResponse">
+    <xs:complexType>
+      <xs:sequence>
+      <xs:element name= "codigoRespuesta" type="xs:int"/>
+      <xs:element name= "mensajeRespuesta" type="xs:string"/>
+        <xs:element name= "Persona" type="tns:Persona"/>
+      </xs:sequence>  
+    </xs:complexType>
+  </xs:element>
+  
+  <xs:complexType name="Persona">
+    <xs:sequence>
+      <xs:element name="ci" type="xs:string"/>
+      <xs:element name="nombre" type="xs:string"/>
+      <xs:element name="apellido" type="xs:string"/>
+      <xs:element name="edad" type="xs:int"/>
+    </xs:sequence>
+  </xs:complexType>
+  
+</xs:schema>

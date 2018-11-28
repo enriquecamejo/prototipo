@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<wsdl:definitions targetNamespace="http://cliente2" xmlns:apachesoap="http://xml.apache.org/xml-soap" xmlns:impl="http://cliente2" xmlns:intf="http://cliente2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<!--WSDL created by Apache Axis version: 1.4
+Built on Apr 22, 2006 (06:55:48 PDT)-->
+ <wsdl:types>
+  <schema elementFormDefault="qualified" targetNamespace="http://cliente2" xmlns="http://www.w3.org/2001/XMLSchema">
+   <element name="insertarPersona">
+    <complexType>
+     <sequence>
+      <element name="persona" type="impl:Persona"/>
+     </sequence>
+    </complexType>
+   </element>
+   <complexType name="Persona">
+    <sequence>
+     <element name="apellido" nillable="true" type="xsd:string"/>
+     <element name="ci" nillable="true" type="xsd:string"/>
+     <element name="edad" type="xsd:int"/>
+     <element name="nombre" nillable="true" type="xsd:string"/>
+    </sequence>
+   </complexType>
+   <element name="insertarPersonaResponse">
+    <complexType/>
+   </element>
+   <element name="buscarPorCI">
+    <complexType>
+     <sequence>
+      <element name="ci" type="xsd:string"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="buscarPorCIResponse">
+    <complexType>
+     <sequence>
+      <element name="buscarPorCIReturn" type="impl:Persona"/>
+     </sequence>
+    </complexType>
+   </element>
+   <element name="obtenerTodasPersonas">
+    <complexType/>
+   </element>
+   <element name="obtenerTodasPersonasResponse">
+    <complexType>
+     <sequence>
+      <element maxOccurs="unbounded" name="obtenerTodasPersonasReturn" type="impl:Persona"/>
+     </sequence>
+    </complexType>
+   </element>
+  </schema>
+ </wsdl:types>
+
+   <wsdl:message name="buscarPorCIResponse">
+
+      <wsdl:part element="impl:buscarPorCIResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertarPersonaRequest">
+
+      <wsdl:part element="impl:insertarPersona" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="obtenerTodasPersonasRequest">
+
+      <wsdl:part element="impl:obtenerTodasPersonas" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="insertarPersonaResponse">
+
+      <wsdl:part element="impl:insertarPersonaResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="obtenerTodasPersonasResponse">
+
+      <wsdl:part element="impl:obtenerTodasPersonasResponse" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:message name="buscarPorCIRequest">
+
+      <wsdl:part element="impl:buscarPorCI" name="parameters">
+
+      </wsdl:part>
+
+   </wsdl:message>
+
+   <wsdl:portType name="ServicioPersona">
+
+      <wsdl:operation name="insertarPersona">
+
+         <wsdl:input message="impl:insertarPersonaRequest" name="insertarPersonaRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:insertarPersonaResponse" name="insertarPersonaResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="buscarPorCI">
+
+         <wsdl:input message="impl:buscarPorCIRequest" name="buscarPorCIRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:buscarPorCIResponse" name="buscarPorCIResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="obtenerTodasPersonas">
+
+         <wsdl:input message="impl:obtenerTodasPersonasRequest" name="obtenerTodasPersonasRequest">
+
+       </wsdl:input>
+
+         <wsdl:output message="impl:obtenerTodasPersonasResponse" name="obtenerTodasPersonasResponse">
+
+       </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:portType>
+
+   <wsdl:binding name="ServicioPersonaSoapBinding" type="impl:ServicioPersona">
+
+      <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+
+      <wsdl:operation name="insertarPersona">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="insertarPersonaRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="insertarPersonaResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="buscarPorCI">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="buscarPorCIRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="buscarPorCIResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+      <wsdl:operation name="obtenerTodasPersonas">
+
+         <wsdlsoap:operation soapAction=""/>
+
+         <wsdl:input name="obtenerTodasPersonasRequest">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:input>
+
+         <wsdl:output name="obtenerTodasPersonasResponse">
+
+            <wsdlsoap:body use="literal"/>
+
+         </wsdl:output>
+
+      </wsdl:operation>
+
+   </wsdl:binding>
+
+   <wsdl:service name="ServicioPersonaService">
+
+      <wsdl:port binding="impl:ServicioPersonaSoapBinding" name="ServicioPersona">
+
+         <wsdlsoap:address location="http://localhost:8080/cliente2/services/ServicioPersona"/>
+
+      </wsdl:port>
+
+   </wsdl:service>
+
+</wsdl:definitions>
