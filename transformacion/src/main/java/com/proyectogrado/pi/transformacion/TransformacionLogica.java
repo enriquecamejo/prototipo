@@ -18,6 +18,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.env.Environment;
+import org.springframework.integration.support.MessageBuilder;
+import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
 
 import net.sf.saxon.s9api.SaxonApiException;
@@ -34,6 +37,25 @@ public class TransformacionLogica {
 	Environment env;
 	
 	private Logger logger = LoggerFactory.getLogger(TransformacionLogica.class);
+	
+	public Message<String> procesamientoTransformacion(Message<String> message) throws Exception {
+		logger.info("Mensaje recibido en el Transformador: "+message.toString());
+		MessageHeaders headers = message.getHeaders();
+		String idSol = (String) headers.get("idSol");
+		Integer paso = (Integer) headers.get("paso");
+		int numero = (int) (Math.random() * 100);
+		logger.info("VAMOS A TRANSFORMAR!! El numero aleatorio es:"+numero);
+		Message<String> messageResultado;
+		if (numero > 80) {
+			logger.error("El transformador dio error!!");
+			throw new Exception("Error por número aleatorio!!");
+		}
+		String result = transformacionXSLT(message.getPayload(), idSol, paso);
+		logger.info("Resultado de Transformacion: "+result);
+        paso = paso + 1;
+        messageResultado = (Message<String>) MessageBuilder.withPayload(result).copyHeaders(message.getHeaders()).setHeader("paso", paso).build();
+        return messageResultado;
+	}
 
 	public String transformacion(String texto, String solucion, Integer paso) {
 		try {

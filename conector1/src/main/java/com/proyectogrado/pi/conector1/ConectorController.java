@@ -1,5 +1,8 @@
 package com.proyectogrado.pi.conector1;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.proyectogrado.pi.conector1.GatewayApplication.StreamGateway;
 
+import utils.MensajeCanonicoUtils;
+
 
 @RestController
 public class ConectorController {
@@ -23,7 +28,7 @@ public class ConectorController {
 				
 	@Autowired
 	Environment env;
-		
+			
 	private Logger logger = LoggerFactory.getLogger(ConectorController.class);
 	
 	@RequestMapping("/recibirMensaje")
@@ -37,6 +42,10 @@ public class ConectorController {
 				logger.error("El conector1 dio error!!");
 				return "Error de procesamiento! Consulte al administrador de la plataforma.";
 			}
+//			Map<String,String> headers = new HashMap<String, String>();
+//			headers.put("idSol", idSol);
+//			headers.put("paso", "1");
+//			String mensaje = MensajeCanonicoUtils.crearMensajeCanonico(headers, contentMessage);
 			Message<String> mensaje = MessageBuilder.withPayload(contentMessage).setHeader("idSol", idSol).setHeader("paso", 1).build();
 			String respuesta = gateway.process(mensaje);
 			logger.info("Se ejecutó CONECTOR1 exitosamente");
