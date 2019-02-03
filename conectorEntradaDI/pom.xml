@@ -86,11 +86,17 @@
             <groupId>org.springframework.integration</groupId>
             <artifactId>spring-integration-http</artifactId>
         </dependency>
-        <dependency>
-		    <groupId>org.json</groupId>
-		    <artifactId>json</artifactId>
-		    <version>20180813</version>
-		</dependency>
+<!--         <dependency> -->
+<!-- 		    <groupId>org.json</groupId> -->
+<!-- 		    <artifactId>json</artifactId> -->
+<!-- 		    <version>20180813</version> -->
+<!-- 		</dependency> -->
+		<dependency>
+	         <groupId>com.proyectogrado.pi</groupId>
+	         <artifactId>utils</artifactId>
+	         <version>${project.version}</version>
+	         <scope>compile</scope>
+      	</dependency>
 	</dependencies>
 
 	<dependencyManagement>

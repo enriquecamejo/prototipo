@@ -82,11 +82,7 @@ public class ConectorController {
 	}
 
 	public String ejecutarServicioOrquestacion(Message<?> message){
-		//HttpEntity<Message<String>> entity = new HttpEntity<Message<String>>(message);
-		//ResponseEntity<String> resultado = restTemplate.exchange(serviceUrl + "/ejecutar", HttpMethod.GET, null, String.class);
 		setServiceUrl("orquestador");
-//		String resultado = restTemplate.postForObject(serviceUrl + "/orquestador/ejecutarSolucion", message, String.class) ;
-//		System.out.println("RESPUESTA!!!!="+resultado);
 		MessageHeaders headers = message.getHeaders();
         logger.info("orquesta headers "+headers.toString());
         String payload = message.getPayload().toString();
