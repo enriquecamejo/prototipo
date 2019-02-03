@@ -5,11 +5,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.core.env.Environment;
 import org.springframework.integration.config.EnableIntegration;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Component;
+import org.springframework.web.client.RestTemplate;
 
 @EnableIntegration
 @Component
@@ -17,7 +19,13 @@ public class ConectorController {
 	
 	@Autowired
 	Environment env;
-		
+	
+	@Autowired
+	@LoadBalanced
+	protected RestTemplate restTemplate;
+
+	protected String serviceUrl;
+	
 	private Logger logger = LoggerFactory.getLogger(ConectorController.class);
 	
 	private Map<String, Object> replyChannelMap = new ConcurrentHashMap<String, Object>();
@@ -67,5 +75,36 @@ public class ConectorController {
 		logger.info("El tipo de composicion para la solucion "+idSol+" es :"+tipoComposicion);
 		return tipoComposicion;
     }
-	
+    
+//    public String setUrlOrquestador(Message<?> message) {
+//    	
+//
+//        MessageHeaders headers = message.getHeaders();
+//        logger.info("headers "+headers.toString());
+//        String idSol = (String) headers.get("idsol");
+//        
+//        StringBuffer tipoComposicionProperty = new StringBuffer("solucion.").append(idSol).append(".tipoComposicion");
+//		String tipoComposicion = env.getProperty(tipoComposicionProperty.toString());
+//        
+//		logger.info("El tipo de composicion para la solucion "+idSol+" es :"+tipoComposicion);
+//		return tipoComposicion;
+//    }
+    
+    public String getServiceUrl() {
+		return serviceUrl;
+	}
+
+	public void setServiceUrl(String serviceUrl) {
+		this.serviceUrl = serviceUrl.startsWith("http") ? serviceUrl: "http://" + serviceUrl;
+	}
+
+	public String ejecutarServicioOrquestacion(Message<String> message){
+		//HttpEntity<Message<String>> entity = new HttpEntity<Message<String>>(message);
+		//ResponseEntity<String> resultado = restTemplate.exchange(serviceUrl + "/ejecutar", HttpMethod.GET, null, String.class);
+		String resultado = restTemplate.getForObject(serviceUrl + "/orquestador/ejecutarSolucion", String.class);
+		System.out.println("RESPUESTA!!!!="+resultado);
+		return null;
+	}
+    
+    
 }
