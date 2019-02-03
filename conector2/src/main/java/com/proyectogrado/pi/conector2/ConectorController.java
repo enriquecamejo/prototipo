@@ -1,4 +1,4 @@
-package com.proyectogrado.pi.transformacion;
+package com.proyectogrado.pi.conector2;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,24 +17,24 @@ import org.springframework.web.bind.annotation.RestController;
 import utils.MensajeCanonicoUtils;
 
 @RestController
-public class TransformacionController {
+public class ConectorController {
 	
 	@Autowired
-	TransformacionLogica transformacionLogica;
-		
-	private Logger logger = LoggerFactory.getLogger(TransformacionController.class);
-		
+	ConectorLogica conectorLogica;
+	
+	private Logger logger = LoggerFactory.getLogger(ConectorController.class);
+	
 	@RequestMapping(value = "/ejecutar", method = RequestMethod.POST)
 	public String ejecutarTrans(@RequestBody String contentMessage, @RequestHeader String idSol, @RequestHeader String paso){
 		Message<String> messageResultado;
 		Map<String,String> headers = new HashMap<>();
 		Message<String> message = MessageBuilder.withPayload(contentMessage).setHeader("idSol", idSol).setHeader("paso", new Integer(paso)).build();
 		try {
-			messageResultado = transformacionLogica.procesamientoTransformacion(message);
-			logger.info("Se ejecutó TRANSFORMADOR exitosamente");
+			messageResultado = conectorLogica.procesamientoConector(message);
+			logger.info("Se ejecutó CONECTOR2 exitosamente");
 			headers.put("status", "200");
-		} catch (Exception ex) {
-			logger.error("ERROR EN TRANSFORMADOR: "+ex.getMessage());
+		}catch(Exception ex) {
+			logger.error("ERROR EN CONECTOR2:"+ex.getMessage());
 			String msjError = "Error de procesamiento! Consulte al administrador de la plataforma.";
 			messageResultado = (Message<String>) MessageBuilder.withPayload(msjError).copyHeaders(message.getHeaders()).build();
 			headers.put("status", "550");

@@ -7,9 +7,15 @@ import org.springframework.cloud.client.loadbalancer.LoadBalanced;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
+import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
+import org.springframework.messaging.MessageHeaders;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
+
+import utils.MensajeCanonicoUtils;
 
 @Service
 public class ClientOrquestadorService {
@@ -21,14 +27,9 @@ public class ClientOrquestadorService {
 	protected String serviceUrl;
 
 	protected Logger logger = Logger.getLogger(ClientOrquestadorService.class.getName());
-
-	/*public ClientOrquestadorService(String serviceUrl) {
-		this.serviceUrl = serviceUrl.startsWith("http") ? serviceUrl: "http://" + serviceUrl;
-	}*/
 			
 	public ClientOrquestadorService() {
 	}
-	
 	
 	public String getServiceUrl() {
 		return serviceUrl;
@@ -38,12 +39,17 @@ public class ClientOrquestadorService {
 		this.serviceUrl = serviceUrl.startsWith("http") ? serviceUrl: "http://" + serviceUrl;
 	}
 
-	public Message<String> ejecutarServicio(Message<String> message){
-		//HttpEntity<Message<String>> entity = new HttpEntity<Message<String>>(message);
-		//ResponseEntity<String> resultado = restTemplate.exchange(serviceUrl + "/ejecutar", HttpMethod.GET, null, String.class);
-		String resultado = restTemplate.getForObject(serviceUrl + "/ejecutar", String.class);
-		System.out.println("RESPUESTA!!!!="+resultado);
-		return null;
+	public String ejecutarServicio(Message<String> message){
+		MessageHeaders headersMessage = message.getHeaders();
+		String idSol = (String) headersMessage.get("idSol");
+		Integer paso = (Integer) headersMessage.get("paso");
+		MultiValueMap<String, String> headers = new LinkedMultiValueMap<String, String>();
+		headers.add("idSol", idSol);
+		headers.add("paso", String.valueOf(paso));
+		HttpEntity<String> entity = new HttpEntity<String>(message.getPayload(), headers);
+		ResponseEntity<String> resultado = restTemplate.exchange(serviceUrl + "/ejecutar", HttpMethod.POST, entity, String.class);
+		System.out.println("RESPUESTA!!!!="+resultado.getBody());
+		return resultado.getBody();
 	}
 
 }

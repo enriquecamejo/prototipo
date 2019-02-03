@@ -78,6 +78,12 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
         </dependency>
+        <dependency>
+	         <groupId>com.proyectogrado.pi</groupId>
+	         <artifactId>utils</artifactId>
+	         <version>${project.version}</version>
+	         <scope>compile</scope>
+      	</dependency>
 	</dependencies>
 
 	<dependencyManagement>
